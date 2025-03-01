@@ -10,21 +10,24 @@ class PlayScene extends BaseScene {
         this.birdFlapVelocity = 300; // gravity / 2
         this.pipesVelocity = 150;
         this.score = 0;
-        this.currentDifficulty = 'easy';
         this.difficulties = {
             easy: {
+                threshold: 15,
                 pipesVerticalGapRange: [150, 205],
                 pipesHorizontalGapRange: [300, 400],
             },
             normal: {
+                threshold: 30,
                 pipesVerticalGapRange: [130, 185],
                 pipesHorizontalGapRange: [280, 380],
             },
             hard: {
+                threshold: 45,
                 pipesVerticalGapRange: [110, 155],
                 pipesHorizontalGapRange: [260, 360],
             },
         }
+        this.currentDifficulty = this.difficulties.easy;
         this.livesCount = config.livesCount
     }
 
@@ -37,7 +40,7 @@ class PlayScene extends BaseScene {
         this.addEventListeners()
         this.createScore()
         this.createLives()
-        this.isPaused = false; // FIXME
+        this.isPaused = false;
 
         this.anims.create({
             key: 'fly',
@@ -197,12 +200,6 @@ class PlayScene extends BaseScene {
         return this.pipes.getChildren()[0].x;
     }
 
-    // checkFlappingOver() {
-    //     if (this.getLeftMostPipeX() === this.bird.x) {
-    //         this.updateScore()
-    //     }
-    // }
-
     recyclePipes() {
         let tmp = []
         this.pipes.getChildren().forEach((pipe) => {
@@ -219,9 +216,9 @@ class PlayScene extends BaseScene {
     }
 
     increaseDifficulty() {
-        if (this.score === 2) {
+        if (this.score === this.difficulties.easy.threshold) {
             this.currentDifficulty = 'normal';
-        } else if (this.score === 4) {
+        } else if (this.score === this.difficulties.normal.threshold) {
             this.currentDifficulty = 'hard';
         }
     }
@@ -244,7 +241,6 @@ class PlayScene extends BaseScene {
             delay: 1000,
             callback: () => {
                 this.updateLives()
-                // FIXME: player should not wait 1 sec to see the Game Over scene
                 if (this.livesCount === 0) {
                     this.scene.stop('PlayScene')
                     this.scene.start('MenuScene')

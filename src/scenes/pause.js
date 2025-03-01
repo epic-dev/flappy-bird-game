@@ -26,12 +26,12 @@ class PauseScene extends BaseScene {
         textGO.on('pointerup', () => {
             if (scene && id === 'play') {
                 this.scene.stop()
-                this.scene.resume(scene) // resume PlayScene
+                this.scene.resume(scene)
                 this.events.emit('resume')
             }
             if (id === 'exit') {
                 this.scene.stop('PlayScene')
-                this.scene.start(scene) // go to MenuScene
+                this.scene.start(scene)
             }
         })
     }
