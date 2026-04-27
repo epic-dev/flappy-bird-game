@@ -11,6 +11,7 @@ class PreloadScene extends Phaser.Scene {
             frameHeight: 16,
         })
         this.load.image('pipe', '../assets/pipe.png')
+        this.load.audio('bgMusic', '../assets/music/bg_1.wav')
     }
     create() {
         this.scene.start('MenuScene')

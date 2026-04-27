@@ -1,5 +1,5 @@
 {
-  "name": "the-withering",
+  "name": "flappy-bird",
   "version": "0.0.1",
   "description": "A 2D browser game",
   "main": "index.js",

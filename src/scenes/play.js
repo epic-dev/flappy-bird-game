@@ -27,7 +27,7 @@ class PlayScene extends BaseScene {
                 pipesHorizontalGapRange: [260, 360],
             },
         }
-        this.currentDifficulty = this.difficulties.easy;
+        this.currentDifficulty = 'easy';
         this.livesCount = config.livesCount
     }
 
@@ -172,7 +172,7 @@ class PlayScene extends BaseScene {
         const {
             pipesVerticalGapRange,
             pipesHorizontalGapRange,
-        } = this.difficulties[this.currentDifficulty]
+        } = this.currentDifficulty
         const rmp = this.getRightmostPipeX()
         let pipeDistanceY = Phaser.Math.Between(...pipesVerticalGapRange)
         let pipeDistanceX = Phaser.Math.Between(...pipesHorizontalGapRange)

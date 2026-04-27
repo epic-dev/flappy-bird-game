@@ -13,9 +13,40 @@ class BaseScene extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, 'sky').setOrigin(0)
+        this.sound.mute = !this.isMusicOn()
         if (this.config.canGoBack) {
             this.createBackButton()
         }
+        this.createMusicToggle()
+    }
+
+    isMusicOn() {
+        return localStorage.getItem('musicOn') !== 'false'
+    }
+
+    musicLabel() {
+        return this.isMusicOn() ? 'Music: ON' : 'Music: OFF'
+    }
+
+    toggleMusic() {
+        const next = !this.isMusicOn()
+        localStorage.setItem('musicOn', next ? 'true' : 'false')
+        this.sound.mute = !next
+        this.game.events.emit('music-toggled')
+    }
+
+    createMusicToggle() {
+        this.musicToggle = this.add.text(10, this.config.height - 10, this.musicLabel(), { ...this.config.text, fontSize: '20px' })
+            .setOrigin(0, 1)
+            .setDepth(100)
+            .setInteractive({ useHandCursor: true })
+            .on('pointerover', () => this.musicToggle.setStyle({ fill: this.config.text.hover }))
+            .on('pointerout', () => this.musicToggle.setStyle({ fill: this.config.text.fill }))
+            .on('pointerup', () => this.toggleMusic())
+
+        const onToggle = () => this.musicToggle && this.musicToggle.setText(this.musicLabel())
+        this.game.events.on('music-toggled', onToggle)
+        this.events.once('shutdown', () => this.game.events.off('music-toggled', onToggle))
     }
 
     createMenu(menu, addEventListeners) {

@@ -2,3 +2,5 @@
 .history
 .vscode
 _ignore
+CLAUDE.md
+node_modules
